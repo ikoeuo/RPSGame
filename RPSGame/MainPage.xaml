@@ -7,7 +7,8 @@
         <Grid RowDefinitions="*,2*,.5*,*,*" ColumnDefinitions="*,*">
             <!--The header label-->
             <Label 
-                Grid.Row="0" Grid.Column="0"
+                Grid.Row="0" Grid.ColumnSpan="3"
+                HorizontalOptions="Center"
                 Text="Rock Paper Scissors Game" 
                 FontSize="Title" 
                 FontAttributes="Bold"/>
@@ -58,10 +59,12 @@
 
             <!--Button to start a new game, initialliy disabled-->
             <Button
-                    Grid.Row="4" Grid.Column="0"
+                    Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
                     FontSize="Medium"
-                    Text="New Game" 
+                    Text="New Game"
                     IsEnabled="False"/>
+            
+          
         </Grid>
     </Grid>
 
