@@ -1,29 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="RPSGame.MainPage">
+             x:Class="RPSGame.MainPage"
+             BackgroundColor="LightGray">
 
     <Grid>
+
         <Grid RowDefinitions="*,2*,.5*,*,*" ColumnDefinitions="*,*">
             <!--The header label-->
             <Label 
-                Grid.Row="0" Grid.ColumnSpan="3"
+                Grid.Row="0" Grid.ColumnSpan="2"
                 HorizontalOptions="Center"
+                VerticalOptions="Center"
                 Text="Rock Paper Scissors Game" 
                 FontSize="Title" 
                 FontAttributes="Bold"/>
 
             <!--Image controls to show the player's and the system's choice-->
             <Image
+                   x:Name="playerPick"
                    Grid.Row="1" Grid.Column="0" 
                    HorizontalOptions="Center"
                    Margin="5"
-                   Aspect="AspectFit"/>
+                   Aspect="AspectFit"
+                   Source="question_mark.png"/>
+                   
             <Image
+                   x:Name="systemPick"
                    Grid.Row="1" Grid.Column="1" 
                    HorizontalOptions="Center"
                    Margin="5"
-                   Aspect="AspectFit"/>
+                   Aspect="AspectFit"
+                   Source="question_mark.png"/>
+            
 
             <!--ImageButtons to capture the player's choice-->
             <Grid 
@@ -32,34 +41,54 @@
                 Margin="2">
 
                 <ImageButton
-                             Grid.Row="0" Grid.Column="0" 
-                             Aspect="AspectFit" />
+                    x:Name="rockButton"
+                    Grid.Row="0" Grid.Column="0" 
+                    Aspect="AspectFit"
+                    BackgroundColor="LightGray"
+                    Source="rock_gesture.png"/>
                 <ImageButton
-                             Grid.Row="0" Grid.Column="1"
-                             Aspect="AspectFit"/>
+                    x:Name="paperButton"
+                    Grid.Row="0" Grid.Column="1"
+                    Aspect="AspectFit"
+                    BackgroundColor="LightGray"
+                    Source="paper_gesture.png"/>
                 <ImageButton
-                             Grid.Row="0" Grid.Column="2" 
-                             Aspect="AspectFit"/>
+                    x:Name="scissorsButton"
+                    Grid.Row="0" Grid.Column="2" 
+                    Aspect="AspectFit"
+                    BackgroundColor="LightGray"
+                    Source="scissors_gesture.png"/>
             </Grid>
 
             <!--Label to show the system's choice-->
             <Label
                    Grid.Row="2" Grid.Column="1" 
-                   HorizontalOptions="Center" VerticalOptions="Center" 
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
                    Margin="5"
+                   FontSize="Medium"
                    Text="System's Choice: "/>
 
             <!--Labels to show the player's and the system's scores-->
             <Label 
-                   Grid.Row="3" Grid.Column="0"                    
-                   Text="Player Score: 0" />
+                   Grid.Row="3" Grid.Column="0"   
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Text="Player Score: 0"
+                   FontSize="Medium"/>
             <Label 
                    Grid.Row="3" Grid.Column="1" 
-                   Text="System Score: 0" />
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Text="System Score: 0" 
+                   FontSize="Medium"/>
 
             <!--Button to start a new game, initialliy disabled-->
             <Button
-                    Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
+                        x:Name="NewGameButton"
+                    Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
                     FontSize="Medium"
                     Text="New Game"
                     IsEnabled="False"/>
