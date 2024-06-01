@@ -7,12 +7,13 @@ public partial class MainPage : ContentPage
     Random ranGen = new Random();
 	int systemScore = 0;
 	int playerScore = 0;
+	int playerBonus = 0;
+	int systemBonus = 0;
 	public MainPage()
 	{
 		InitializeComponent();
 	}
-
-	void OnChoiceButtonClicked(System.Object sender, System.EventArgs e)
+    void OnChoiceButtonClicked(System.Object sender, System.EventArgs e)
 	{
         var button = sender as ImageButton;
         int playerChoice = int.Parse(button.CommandParameter.ToString());
@@ -27,12 +28,11 @@ public partial class MainPage : ContentPage
 			case 2:return "paper";
 			case 3: return "scissors";
 			default: return "unknown";
-			
 
 		}
 	}
 
-	void DisplayChoices(int playerChoice, int systemChoice) //displays the images
+	void DisplayChoices(int playerChoice, int systemChoice) //displays the images picked by user and system
 	{
 		playerPick.Source = $"{ChoiceName(playerChoice)}.png";
 		systemPick.Source = $"{ChoiceName(systemChoice)}.png";
@@ -49,37 +49,42 @@ public partial class MainPage : ContentPage
 			{
 				playerScore = playerScore + 1;
 			}
-			else 
+			else
 			{
 				systemScore = systemScore + 1;
 			}
 
 		}
-        playerScoreLabel.Text = $"Player Score: {playerScore}";
-        systemScoreLabel.Text = $"System Score: {systemScore}";
-    }
+		playerScoreLabel.Text = $"Player Score: {playerScore}";
+		systemScoreLabel.Text = $"System Score: {systemScore}";
+		Bonus();
+	}
 
-	void DisableChoiceButtons() 
+	void DisableChoiceButtons() //disables choice buttons
 	{
         rockButton.IsEnabled = false;
         paperButton.IsEnabled = false;
         scissorsButton.IsEnabled = false;
     }
-    void FinalWinner() //checks for winner
+    void FinalWinner() //checks for winner at 3 points
 	{
 		if (playerScore == 3) 
 		{
-			DisplayAlert("Game Over", "You are the Winner!", "OK");
-            NewGameButton.IsEnabled = true;
-			DisableChoiceButtons();
-
-		}
-		else if (systemScore == 3) 
-		{
-			DisplayAlert("Game Over", "Better luck nect time ):", "OK");
+            playerBonus = playerBonus + 1;
+            systemBonus = 0;
+            DisplayAlert("Game Over", "You are the Winner!", "OK");
             NewGameButton.IsEnabled = true;
 			DisableChoiceButtons();
         }
+		else if (systemScore == 3) 
+		{
+            systemBonus = systemBonus + 1;
+            playerBonus = 0;
+            DisplayAlert("Game Over", "System Wins, Better luck nect time!", "OK");
+            NewGameButton.IsEnabled = true;
+			DisableChoiceButtons();
+        }
+		Bonus();
 	}
 	void OnNewGameButtonClicked(System.Object sender, System.EventArgs e) //resets the game to default
 	{
@@ -99,13 +104,23 @@ public partial class MainPage : ContentPage
         scissorsButton.IsEnabled = true;
  
     }
-    void StartGame(int playerChoice)
+	void Bonus() 
+	{
+        if (playerBonus == 2 || systemBonus == 2)
+        {
+            DisableChoiceButtons();
+            NewGameButton.IsEnabled = false;
+            DisplayAlert("Match Over", "", "OK");
+        }
+    }
+    void StartGame(int playerChoice) //starts the game
     {
-        int systemChoice = ranGen.Next(1, 4);
-        DisplayChoices(playerChoice, systemChoice);
-		CheckRoundWinner(playerChoice, systemChoice);
-        FinalWinner();
-
+		{
+            int systemChoice = ranGen.Next(1, 4);
+			DisplayChoices(playerChoice, systemChoice);
+			CheckRoundWinner(playerChoice, systemChoice);
+			FinalWinner();
+		}
     }
 }
 
