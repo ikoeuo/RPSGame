@@ -1,38 +1,111 @@
 ﻿namespace RPSGame;
 
+//comments are to help me look through the code :)
+
 public partial class MainPage : ContentPage
 {
-	Random ranGen;
-	int systemChoice;
-	int playerChoice;
+    Random ranGen = new Random();
 	int systemScore = 0;
 	int playerScore = 0;
 	public MainPage()
 	{
 		InitializeComponent();
-        //generate computer choice
-        Random ranGen = new Random();
-        systemChoice = ranGen.Next(1, 4);
-
 	}
 
-	void ImageButton_Click(System.Object sender, System.EventArgs e)
+	void OnChoiceButtonClicked(System.Object sender, System.EventArgs e)
 	{
+        var button = sender as ImageButton;
+        int playerChoice = int.Parse(button.CommandParameter.ToString());
+        StartGame(playerChoice);
+    }
 
-		NewGameButton.IsEnabled = true;
-
-	if (systemChoice == 1)  //rock is 1
+	string ChoiceName(int choice)
+	{
+		switch(choice)
 		{
-			systemPick.Source = ImageSource.FromFile("rock.png");
+			case 1: return "rock";
+			case 2:return "paper";
+			case 3: return "scissors";
+			default: return "unknown";
+			
+
 		}
-    else if(systemChoice == 2) //paper is 2
+	}
+
+	void DisplayChoices(int playerChoice, int systemChoice) //displays the images
+	{
+		playerPick.Source = $"{ChoiceName(playerChoice)}.png";
+		systemPick.Source = $"{ChoiceName(systemChoice)}.png";
+
+    }
+
+	void CheckRoundWinner(int playerChoice, int systemChoice) //decides who the winner in the round is
+
+	{
+		if (playerChoice != systemChoice)
 		{
-            systemPick.Source = ImageSource.FromFile("paper.png");
-        }
-    else if(systemChoice == 3) //scissors is 3
+
+			if ((playerChoice == 1 && systemChoice == 3) || (playerChoice == 2 && systemChoice == 1) || (playerChoice == 3 && systemChoice == 2))
+			{
+				playerScore = playerScore + 1;
+			}
+			else 
+			{
+				systemScore = systemScore + 1;
+			}
+
+		}
+        playerScoreLabel.Text = $"Player Score: {playerScore}";
+        systemScoreLabel.Text = $"System Score: {systemScore}";
+    }
+
+	void DisableChoiceButtons() 
+	{
+        rockButton.IsEnabled = false;
+        paperButton.IsEnabled = false;
+        scissorsButton.IsEnabled = false;
+    }
+    void FinalWinner() //checks for winner
+	{
+		if (playerScore == 3) 
 		{
-            systemPick.Source = ImageSource.FromFile("scissors.png");
+			DisplayAlert("Game Over", "You are the Winner!", "OK");
+            NewGameButton.IsEnabled = true;
+			DisableChoiceButtons();
+
+		}
+		else if (systemScore == 3) 
+		{
+			DisplayAlert("Game Over", "Better luck nect time ):", "OK");
+            NewGameButton.IsEnabled = true;
+			DisableChoiceButtons();
         }
+	}
+	void OnNewGameButtonClicked(System.Object sender, System.EventArgs e) //resets the game to default
+	{
+		NewGame();
+	}
+	void NewGame() 
+	{
+		playerScore = 0;
+		systemScore = 0;
+        playerPick.Source = "question_mark.png";
+        systemPick.Source = "question_mark.png";
+        playerScoreLabel.Text = "Player Score: 0";
+        systemScoreLabel.Text = "System Score: 0";
+        NewGameButton.IsEnabled = false;
+        rockButton.IsEnabled = true;
+        paperButton.IsEnabled = true;
+        scissorsButton.IsEnabled = true;
+ 
+    }
+    void StartGame(int playerChoice)
+    {
+        int systemChoice = ranGen.Next(1, 4);
+        DisplayChoices(playerChoice, systemChoice);
+		CheckRoundWinner(playerChoice, systemChoice);
+        FinalWinner();
+
     }
 }
 

@@ -45,18 +45,24 @@
                     Grid.Row="0" Grid.Column="0" 
                     Aspect="AspectFit"
                     BackgroundColor="LightGray"
+                    Clicked="OnChoiceButtonClicked"
+                    CommandParameter="1"
                     Source="rock_gesture.png"/>
                 <ImageButton
                     x:Name="paperButton"
                     Grid.Row="0" Grid.Column="1"
                     Aspect="AspectFit"
                     BackgroundColor="LightGray"
+                    Clicked="OnChoiceButtonClicked"
+                    CommandParameter="2"
                     Source="paper_gesture.png"/>
                 <ImageButton
                     x:Name="scissorsButton"
                     Grid.Row="0" Grid.Column="2" 
                     Aspect="AspectFit"
                     BackgroundColor="LightGray"
+                    Clicked="OnChoiceButtonClicked"
+                    CommandParameter="3"
                     Source="scissors_gesture.png"/>
             </Grid>
 
@@ -71,12 +77,14 @@
 
             <!--Labels to show the player's and the system's scores-->
             <Label 
+                   x:Name="playerScoreLabel"
                    Grid.Row="3" Grid.Column="0"   
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
                    Text="Player Score: 0"
                    FontSize="Medium"/>
             <Label 
+                   x:Name="systemScoreLabel"
                    Grid.Row="3" Grid.Column="1" 
                    HorizontalOptions="Center"
                    VerticalOptions="Center"
@@ -91,7 +99,8 @@
                     VerticalOptions="Center"
                     FontSize="Medium"
                     Text="New Game"
-                    IsEnabled="False"/>
+                    IsEnabled="False"
+                    Clicked="OnNewGameButtonClicked"/>
             
           
         </Grid>
